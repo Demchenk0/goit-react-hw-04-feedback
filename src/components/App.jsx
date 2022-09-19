@@ -27,7 +27,6 @@ export class App extends Component {
 		}));
 	};
   render() {
-    console.log(this.state);
     const { good, neutral, bad } = this.state;
 		return (
 			<>
