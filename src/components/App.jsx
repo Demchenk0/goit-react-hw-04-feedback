@@ -12,7 +12,6 @@ export class App extends Component {
 	};
 
 	sumReview = () => {
-		const { good, neutral, bad } = this.state;
 		const arrValue = Object.values(this.state);
 		const ReviewFeedback = arrValue.reduce((acc, value) => {
 			return acc + value;
