@@ -41,7 +41,7 @@ export class App extends Component {
 				</Section>
 
 				<Section title="Statistics">
-					{this.sumReview() > 0 ? (
+					{this.sumReview() ? (
 						<Statistics
 							good={good}
 							neutral={neutral}
