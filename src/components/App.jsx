@@ -1,59 +1,57 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { Section } from './Section/Section';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Statistics } from './Statistics/Statistics';
 import { Notification } from './Notification/Notification';
 
-export class App extends Component {
-	state = {
-		good: 0,
-		neutral: 0,
-		bad: 0,
-	};
+export function App() {
+	const [good, setGood] = useState(0);
+	const [neutral, setNeutral] = useState(0);
+	const [bad, setBad] = useState(0);
 
-	sumReview = () => {
-		const arrValue = Object.values(this.state);
-		const ReviewFeedback = arrValue.reduce((acc, value) => {
-			return acc + value;
-		}, 0);
-		return ReviewFeedback;
+	const handelChange = event => {
+		switch (event) {
+			case 'good':
+				setGood(prevState => prevState + 1);
+				break;
+			case 'neutral':
+				setNeutral(prevState => prevState + 1);
+				break;
+			case 'bad':
+				setBad(prevState => prevState + 1);
+				break;
+			default:
+				return;
+		}
 	};
+	const sumReview = () => {
+		return good + neutral + bad;
+	};
+	const percentPositive = () => {
+		return Math.round((good / sumReview()) * 100);
+	};
+	return (
+		<>
+			<Section title="Please leave feedback">
+				<FeedbackOptions
+					options={['good', 'neutral', 'bad']}
+					onLeaveFeedback={handelChange}
+				></FeedbackOptions>
+			</Section>
 
-	percentPositive = () => {
-		const { good } = this.state;
-		return Math.round((good / this.sumReview()) * 100);
-	};
-	onClickButton = element => {
-		console.log(element);
-		this.setState(prevState => ({
-			[element]: prevState[element] + 1,
-		}));
-	};
-	render() {
-		const { good, neutral, bad } = this.state;
-		return (
-			<>
-				<Section title="Please leave feedback">
-					<FeedbackOptions
-						options={Object.keys(this.state)}
-						onLeaveFeedback={this.onClickButton}
-					></FeedbackOptions>
-				</Section>
-
-				<Section title="Statistics">
-					{this.sumReview() ? (
-						<Statistics
-							good={good}
-							neutral={neutral}
-							bad={bad}
-							total={this.sumReview()}
-							positivePercentage={this.percentPositive()}
-						></Statistics>
-					) : (
-						<Notification message="There is no feedback"></Notification>
-					)}
-				</Section>
-			</>
-		);
-	}
+			<Section title="Statistics">
+				{sumReview() ? (
+					<Statistics
+						good={good}
+						neutral={neutral}
+						bad={bad}
+						total={sumReview()}
+						positivePercentage={percentPositive()}
+					></Statistics>
+				) : (
+					<Notification message="There is no feedback"></Notification>
+				)}
+			</Section>
+		</>
+	);
 }
