@@ -3,6 +3,7 @@ import { Section } from './Section/Section';
 import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Statistics } from './Statistics/Statistics';
 import { Notification } from './Notification/Notification';
+import { GeneralContainer } from './App.styled';
 
 export function App() {
 	const [good, setGood] = useState(0);
@@ -31,7 +32,7 @@ export function App() {
 		return Math.round((good / sumReview()) * 100);
 	};
 	return (
-		<>
+		<GeneralContainer>
 			<Section title="Please leave feedback">
 				<FeedbackOptions
 					options={['good', 'neutral', 'bad']}
@@ -52,6 +53,6 @@ export function App() {
 					<Notification message="There is no feedback"></Notification>
 				)}
 			</Section>
-		</>
+		</GeneralContainer>
 	);
 }
